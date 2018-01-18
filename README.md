@@ -7,7 +7,7 @@
 ![Open file from path](https://raw.githubusercontent.com/Jack89ita/vscode-copy-filename/master/img/cf-use-gif.gif)
 
 Simple VS Code plugin that allows you to copy file name or folder name to clipboard from sidebar or opened file label.
-Right click on file or folder name and select the label "Copy name to clipboard". 
+Right click on file or folder name and select "Copy name to clipboard". 
 
 ## Change Log
 See Change Log [here](CHANGELOG.md)
