@@ -15,8 +15,8 @@
         "sidebar",
         "copy-filename",
         "clipboard",
-        "vscode",
-        "vscode-extension"
+        "file",
+        "folder"
     ],
     "activationEvents": [
         "onCommand:extension.copyFileName"
