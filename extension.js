@@ -1,6 +1,6 @@
 //Required modules
 const vscode = require('vscode');
-const copy = require('copy-paste').copy;
+const clipboardy = require('clipboardy');
 
 //Set error view
 const showError = message => vscode.window.showErrorMessage(`Copy filename: ${message}`);
@@ -16,19 +16,13 @@ exports.activate = context => {
             return showError('You must have a workspace opened.');
         }
 
-        //Do nothing if editor is undefined
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            return;
-        }
-
         //get the relative url, parse it and take the last part
         let url = vscode.workspace.asRelativePath(uri);
         let urlFormatted = url.replace(/\\/g, '/')
         let lastPart = urlFormatted.split('/').pop();
 
         //Copy the last part to clipboard
-        copy(lastPart, () => showWarning(`Filename ${lastPart} has been copied to clipboard`));
+        clipboardy.write(lastPart).then(showWarning(`Filename ${lastPart} has been copied to clipboard`));
 
     });
 
