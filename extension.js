@@ -10,11 +10,6 @@ exports.activate = context => {
 
     //Register command
     const copyFilename = vscode.commands.registerCommand('extension.copyFileName', (uri) => {
-        
-        //Check to see if workspace is open
-        if (!vscode.workspace.rootPath) {
-            return showError('You must have a workspace opened.');
-        }
 
         //get the relative url, parse it and take the last part
         let url = vscode.workspace.asRelativePath(uri);
