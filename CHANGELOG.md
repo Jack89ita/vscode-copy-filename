@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.1.1
+
+* Updated .vscodeignore
+
 ## 2.1.0
 
 * Removed mandatory workspace.
