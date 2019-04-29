@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.1.2
+
+* node_modules bugfix
+
 ## 2.1.1
 
 * Updated .vscodeignore
