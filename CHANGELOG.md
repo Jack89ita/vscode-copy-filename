@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.2.0
+## 2.3.0
 
 * Add support for multiple files select
 * Resolved [#10](https://github.com/Jack89ita/vscode-copy-filename/issues/10)
