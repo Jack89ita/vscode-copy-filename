@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.6.0
+
+* Add support for multiple files select
+* Resolved [#10](https://github.com/Jack89ita/vscode-copy-filename/issues/10)
+* Updated dependencies.
+
 ## 2.1.5
 
 * Bump eslint-utils from 1.3.1 to 1.4.2

@@ -9,16 +9,24 @@ const showWarning = message => vscode.window.setStatusBarMessage(`${message}`, 3
 exports.activate = context => {
 
     //Register command
-    const copyFilename = vscode.commands.registerCommand('extension.copyFileName', (uri) => {
+    const copyFilename = vscode.commands.registerCommand('extension.copyFileName', (uri, files) => {
+        let accumulator = '';
 
-        //get the relative url, parse it and take the last part
-        let url = vscode.workspace.asRelativePath(uri);
-        let urlFormatted = url.replace(/\\/g, '/')
-        let lastPart = urlFormatted.split('/').pop();
+        if(typeof files !== 'undefined' && files.length > 0) {
+            files.forEach(el => {
+                //get the relative url, parse it and take the last part
+                let url = vscode.workspace.asRelativePath(el.path);
+                let urlFormatted = url.replace(/\\/g, '/')
+                accumulator += urlFormatted.split('/').pop()+'\n';
+            });
+        } else if(uri) {
+            let url = vscode.workspace.asRelativePath(uri);
+            let urlFormatted = url.replace(/\\/g, '/')
+            accumulator += urlFormatted.split('/').pop();
+        }
 
         //Copy the last part to clipboard
-        clipboardy.write(lastPart).then(showWarning(`Filename ${lastPart} has been copied to clipboard`));
-
+        clipboardy.write(accumulator).then(showWarning(`Filename/s has been copied to clipboard`));
     });
 
     context.subscriptions.push(copyFilename);
