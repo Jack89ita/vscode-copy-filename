@@ -13,11 +13,12 @@ exports.activate = context => {
         let accumulator = '';
 
         if(typeof files !== 'undefined' && files.length > 0) {
-            files.forEach(el => {
+            files.forEach((el, index) => {
                 //get the relative url, parse it and take the last part
                 let url = vscode.workspace.asRelativePath(el.path);
                 let urlFormatted = url.replace(/\\/g, '/')
-                accumulator += urlFormatted.split('/').pop()+'\n';
+                accumulator += urlFormatted.split('/').pop();
+                accumulator += (index == files.length -1) ? '' : '\n';
             });
         } else if(uri) {
             let url = vscode.workspace.asRelativePath(uri);
