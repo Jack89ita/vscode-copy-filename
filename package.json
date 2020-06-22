@@ -52,7 +52,8 @@
         "eslint": "^5.14.1",
         "typescript": "^2.9.2",
         "vscode": "^1.1.33",
-        "diff": ">=3.5.0"
+        "diff": ">=3.5.0",
+        "minimist": ">=0.2.1"
     },
     "repository": {
         "type": "git",
@@ -64,7 +65,7 @@
     },
     "icon": "img/cf_logo.png",
     "dependencies": {
-        "clipboardy": "^1.2.3",
+        "clipboardy": "^2.3.0",
         "hoek": "^5.0.4"
     }
 }
