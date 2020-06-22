@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.2
+
+* Updated dependencies.
+
 ## 2.3.1
 
 * Close [#11](https://github.com/Jack89ita/vscode-copy-filename/issues/11): line break bugfix
