@@ -19,25 +19,74 @@
         "folder"
     ],
     "activationEvents": [
-        "onCommand:extension.copyFileName"
+        "onCommand:extension.copyFileName",
+        "onCommand:extension.copyFileNameOfActiveFile",
+        "onCommand:extension.copyFileNameNoExtension",
+        "onCommand:extension.copyFileNameNoExtensionOfActiveFile"
     ],
     "main": "./extension",
     "contributes": {
         "commands": [
             {
+                "category": "File",
                 "command": "extension.copyFileName",
-                "title": "Copy name to clipboard"
+                "title": "Copy Filename"
+            },
+            {
+                "category": "File",
+                "command": "extension.copyFileNameOfActiveFile",
+                "title": "Copy Filename of Active File"
+            },
+            {
+                "category": "File",
+                "command": "extension.copyFileNameNoExtension",
+                "title": "Copy Filename Without Extension"
+            },
+            {
+                "category": "File",
+                "command": "extension.copyFileNameNoExtensionOfActiveFile",
+                "title": "Copy Filename Without Extension of Active File"
             }
         ],
         "menus": {
+            "commandPalette": [
+                {
+                    "COMMENT": "This command should only be shown in context menus",
+                    "command": "extension.copyFileName",
+                    "when": "false"
+                },
+                {
+                    "COMMENT": "This command should only be shown in context menus",
+                    "command": "extension.copyFileNameNoExtension",
+                    "when": "false"
+                }
+            ],
             "explorer/context": [
                 {
-                    "command": "extension.copyFileName"
+                    "command": "extension.copyFileName",
+                    "when": "isFileSystemResource",
+                    "COMMENT": "https://github.com/microsoft/vscode/blob/f74e473238aca7b79c08be761d99a0232838ca4c/src/vs/workbench/contrib/files/browser/fileActions.contribution.ts#L496",
+                    "group": "6_copypath@102"
+                },
+                {
+                    "command": "extension.copyFileNameNoExtension",
+                    "when": "isFileSystemResource",
+                    "COMMENT": "https://github.com/microsoft/vscode/blob/f74e473238aca7b79c08be761d99a0232838ca4c/src/vs/workbench/contrib/files/browser/fileActions.contribution.ts#L496",
+                    "group": "6_copypath@103"
                 }
             ],
             "editor/title/context": [
                 {
-                    "command": "extension.copyFileName"
+                    "command": "extension.copyFileName",
+                    "when": "isFileSystemResource",
+                    "COMMENT": "https://github.com/microsoft/vscode/blob/f74e473238aca7b79c08be761d99a0232838ca4c/src/vs/workbench/contrib/files/browser/fileActions.contribution.ts#L169",
+                    "group": "1_cutcopypaste@102"
+                },
+                {
+                    "command": "extension.copyFileNameNoExtension",
+                    "when": "isFileSystemResource",
+                    "COMMENT": "https://github.com/microsoft/vscode/blob/f74e473238aca7b79c08be761d99a0232838ca4c/src/vs/workbench/contrib/files/browser/fileActions.contribution.ts#L169",
+                    "group": "1_cutcopypaste@103"
                 }
             ]
         }
@@ -49,11 +98,11 @@
     "devDependencies": {
         "@types/mocha": "^2.2.48",
         "@types/node": "^7.0.71",
-        "eslint": "^5.14.1",
-        "typescript": "^2.9.2",
-        "vscode": "^1.1.33",
         "diff": ">=3.5.0",
-        "minimist": ">=0.2.1"
+        "eslint": "^7.5.0",
+        "minimist": ">=0.2.1",
+        "typescript": "^2.9.2",
+        "vscode": "^1.1.33"
     },
     "repository": {
         "type": "git",
@@ -65,7 +114,6 @@
     },
     "icon": "img/cf_logo.png",
     "dependencies": {
-        "clipboardy": "^2.3.0",
         "hoek": "^5.0.4"
     }
 }

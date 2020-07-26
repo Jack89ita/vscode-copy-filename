@@ -1,36 +1,106 @@
 //Required modules
 const vscode = require('vscode');
-const clipboardy = require('clipboardy');
+const path = require('path');
 
-//Set error view
+/**
+ * @param {string} message
+ */
 const showError = message => vscode.window.showErrorMessage(`Copy filename: ${message}`);
+/**
+ * @param {string} message
+ */
 const showWarning = message => vscode.window.setStatusBarMessage(`${message}`, 3000);
 
+/**
+ * @callback registerCommand
+ * @param {vscode.Uri} uri
+ * @param {vscode.Uri[]=} [files]
+ */
+
+/**
+ * @param {vscode.ExtensionContext} context
+ */
 exports.activate = context => {
+    //Register context menu commands
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            'extension.copyFileName',
+            /** @type {registerCommand} */
+            (uri, files) => doCopy(getUris(uri, files), true),
+        ),
+    );
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            'extension.copyFileNameNoExtension',
+            /** @type {registerCommand} */
+            (uri, files) => doCopy(getUris(uri, files), false),
+        ),
+    );
 
-    //Register command
-    const copyFilename = vscode.commands.registerCommand('extension.copyFileName', (uri, files) => {
-        let accumulator = '';
-
-        if(typeof files !== 'undefined' && files.length > 0) {
-            files.forEach((el, index) => {
-                //get the relative url, parse it and take the last part
-                let url = vscode.workspace.asRelativePath(el.path);
-                let urlFormatted = url.replace(/\\/g, '/')
-                accumulator += urlFormatted.split('/').pop();
-                accumulator += (index == files.length -1) ? '' : '\n';
-            });
-        } else if(uri) {
-            let url = vscode.workspace.asRelativePath(uri);
-            let urlFormatted = url.replace(/\\/g, '/')
-            accumulator += urlFormatted.split('/').pop();
-        }
-
-        //Copy the last part to clipboard
-        clipboardy.write(accumulator).then(showWarning('Filename/s has been copied to clipboard'));
-    });
-
-    context.subscriptions.push(copyFilename);
+    //Register command pallette commands
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            'extension.copyFileNameOfActiveFile',
+            () => doCopy(getActiveUri(), true),
+        ),
+    );
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            'extension.copyFileNameNoExtensionOfActiveFile',
+            () => doCopy(getActiveUri(), false),
+        ),
+    );
 }
 
 exports.deactivate = () => { };
+
+/**
+ * @param {vscode.Uri} uri
+ * @param {vscode.Uri[]=} [files]
+ * @returns {vscode.Uri[]}
+ */
+function getUris(uri, files) {
+    if(typeof files !== 'undefined' && files.length > 0) {
+        return files;
+    }
+    return [uri];
+}
+
+/**
+ * @returns {vscode.Uri[]=}
+ */
+function getActiveUri() {
+    const activeTextEditor = vscode.window.activeTextEditor;
+    if (typeof activeTextEditor === 'undefined') {
+        return;
+    }
+    return [activeTextEditor.document.uri];
+}
+
+/**
+ * @param {vscode.Uri[]} uris
+ * @param {boolean} includeExtension
+ * @returns {void}
+ */
+function doCopy(uris, includeExtension) {
+    const accumulator = uris
+        .map(uri => getFilename(uri, includeExtension))
+        .join('\n');
+    //Copy text to the clipboard
+    vscode.env.clipboard.writeText(accumulator)
+        .then(showWarning(`Filename${uris.length > 1 ? 's' : ''} has been copied to clipboard`));
+}
+
+/**
+ * @param {vscode.Uri} uri
+ * @param {boolean} includeExtension
+ */
+function getFilename(uri, includeExtension) {
+    const relative = vscode.workspace.asRelativePath(uri);
+    const parsed = path.parse(relative);
+
+    if(includeExtension) {
+        return parsed.base;
+    }
+    return parsed.name;
+}
