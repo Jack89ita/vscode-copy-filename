@@ -1,7 +1,7 @@
 {
     "name": "copy-filename",
     "displayName": "Copy filename",
-    "description": "Simple VS Code plugin that allows you to copy file name or folder name to clipboard from sidebar or opened file label",
+    "description": "Simple VS Code plugin that allows you to copy file names or folder names to clipboard from sidebar or opened file label as a comma-separated array of strings",
     "license": "MIT",
     "version": "2.3.2",
     "publisher": "jack89ita",
@@ -19,7 +19,8 @@
         "folder"
     ],
     "activationEvents": [
-        "onCommand:extension.copyFileName"
+        "onCommand:extension.copyFileName",
+        "onCommand:extension.copyFileNameStringArrayFormat"
     ],
     "main": "./extension",
     "contributes": {
@@ -27,17 +28,27 @@
             {
                 "command": "extension.copyFileName",
                 "title": "Copy name to clipboard"
+            },
+            {
+                "command": "extension.copyFileNameStringArrayFormat",
+                "title": "Copy file name(s) to clipboard as array of strings"
             }
         ],
         "menus": {
             "explorer/context": [
                 {
                     "command": "extension.copyFileName"
+                },
+                {
+                    "command": "extension.copyFileNameStringArrayFormat"
                 }
             ],
             "editor/title/context": [
                 {
                     "command": "extension.copyFileName"
+                },
+                {
+                    "command": "extension.copyFileNameStringArrayFormat"
                 }
             ]
         }
